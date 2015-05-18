@@ -22,6 +22,27 @@ section.login-form,
   margin-top: -50px;
   margin-bottom: 0px;
 }
+.b table tbody tr:hover td {
+  background-color: #1abc9c;
+  cursor: pointer;
+}
+.b table tbody tr:hover td:first-child() {
+  border-radius-right: 10px;
+}
+.b table tbody tr:hover p {
+  color: #fff;
+}
+.href {
+  color: #48c9b0;
+}
+.call {
+  width: 100px;
+  margin-top: 10px;
+}
+.b tr:hover td:nth-child(5):hover p,
+.b tr:hover td:nth-child(6):hover p {
+  text-decoration: underline;
+}
 .buttons {
   display: inline-block;
   margin-top: -100px;
@@ -6362,7 +6383,7 @@ footer p {
   top: 22px;
   right: 20px;
   float: right;
-  height: 480px;
+  height: 430px;
   min-width: 430px;
   border-radius: 6px;
   overflow: auto;

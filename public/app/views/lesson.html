@@ -1,11 +1,11 @@
 <section>
 	<h2>Welcome to {{lesson.languag}} lesson!</h2>
-    <h6>teacher: {{lesson.teacherUserName}}</h6>
+    <!-- <h6>teacher: {{lesson.teacherUserName}}</h6>
     <h6>student: {{lesson.studentUserName}}</h6>
     <h6>date: {{lesson.date}}</h6>
-    <h6>time: {{lesson.tim}}</h6>
+    <h6>time: {{lesson.tim}}</h6> -->
 </section>
-<section class="login-form">
+<section class="login-form" ng-controller="rCtrl">
 	<!-- <div> -->
         <div id="container">
             <div id="subVideo">
@@ -19,58 +19,20 @@
       <button id="callButton">Call</button>
       <button id="hangupButton">Hang Up</button>
     </div> -->
-    <div class="wchat">
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
-    	<p><strong>blablalba:</strong> rftgykhjk</p>
+    <div class="wchat" ng-init="reloading()">
+        <p ng-repeat="i in Chat"><strong>{{i.username}}:</strong> {{i.mtext}}</p>
     </div>
-    <form class="chat">
+    <form class="chat" ng-submit="sendMessage()">
 	    <div class="form-group">
-			<input type="text" placeholder="You message..." class="form-control mes"/>
+			<input type="text" ng-model="message" name="message" placeholder="Your message..." class="form-control mes"/>
 			<!-- <label class="login-field-icon fui-new"></label> -->
-			<button class="btn btn-primary send">Send</button>
+			<button type="submit" class="btn btn-primary send">Send</button>
 		</div>
 	</form>
 
     <div ng-controller="rCtrl">
-      <button id="startButton" ng-click="main()">Start</button>
+      <button class="btn btn-success call" id="startButton" ng-click="main()">Call</button>
+      <button class="btn btn-danger call hangup" id="startButton">Hang up</button>
       <!-- <button id="callButton" ng-click="main()">Call</button>
       <button id="hangupButton" ng-click="main()">Hang Up</button> -->
     </div>
@@ -80,3 +42,4 @@
 		<p>studentUserName: {{lesson.studentUserName}}</p>
 	</div> -->
 </section>
+

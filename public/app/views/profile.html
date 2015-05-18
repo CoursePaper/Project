@@ -1,10 +1,10 @@
 <section ng-controller="rCtrl">
-	<h2>Hello, {{user.uname}}!</h2>
+	<!-- <h2>Hello, {{user.uname}}!</h2> -->
 </section>
-<section class="login-form">
-	<img src="http://upload.wikimedia.org/wikipedia/commons/2/27/Sherman_Profile.png" class="img-rounded img-responsive" />
+<section class="login-form" ng-controller="rCtrl">
+	<img src="http://i63.beon.ru/5/3/1540305/97/93378797/7f3d97.jpeg" class="img-rounded img-responsive" />
 	
-	<div class="uinfo" ng-app="webrtcV0App" ng-controller="rCtrl" >
+	<div class="uinfo" ng-app="webrtcV0App">
 		<p><strong>User Name:</strong> {{user.uname}}</p>
 		<p><strong>First Name:</strong> {{user.ufname}}</p>
 		<p><strong>Last Name:</strong> {{user.ulname}}</p>
@@ -13,7 +13,7 @@
 </section>
 
 <section class="login-form" id="inviz" ng-controller="rCtrl">
-	<form ng-submit="createLesson()">
+	<form id="iii" ng-submit="createLesson()">
 		<div class="btn btn-primary bb" ng-click="hideCreatingLessons()">Hide lesson registration</div>
 		<!-- <div class="form-group"> -->
 	  		<input id="login-name _login" type="text" class="form-control login-field" placeholder="Enter your student username" ng-model="studentUserName" required />
@@ -57,12 +57,12 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="i in lesArray">
-				<td>{{$index+1}}</td>
-				<td>{{i.date.day}}.{{i.date.month}}.{{i.date.year}}</td>
-				<td>{{i.tim}}</td>
-				<td>{{i.languag}}</td>
-				<td><a href="#">{{i.teacher.teacherUserName}}</a></td>
-				<td><a href="#">{{i.student.studentUserName}}</a></td>
+				<td ng-click="enterLesson(i._id)">{{$index+1}}</td>
+				<td ng-click="enterLesson(i._id)">{{i.date.day}}.{{i.date.month}}.{{i.date.year}}</td>
+				<td ng-click="enterLesson(i._id)">{{i.tim}}</td>
+				<td ng-click="enterLesson(i._id)">{{i.languag}}</td>
+				<td><p class="href" ng-click="showProfile(i.teacher.idTeacher)">{{i.teacher.teacherUserName}}</p></td>
+				<td><p class="href" ng-click="showProfile(i.student.idStudent)">{{i.student.studentUserName}}</p></td>
 			</tr>
 		</tbody>
 	</table>
@@ -99,6 +99,3 @@
 	</div>
 	<input class="btn btn-lg btn-primary" type="submit" value="Send">
 </section>
-<!-- <section ng-controller="rCtrl">
-	<button class="btn btn-lg btn-primary" ng-click="loadLessons()">load Lessons</button>
-</section> -->

@@ -30,7 +30,10 @@ registrationServices.service('User', ['$http', '$q',
  		registration: registration,
  		enterence: enterence,
  		addlesson: addlesson,
- 		loadlessons: loadlessons
+ 		loadlessons: loadlessons,
+ 		sendmess: sendmess,
+ 		enterLesson: enterLesson,
+ 		loadChat: loadChat
  	});
 
  	function registration (username, firstname, lastname, useremail, password, country) {
@@ -79,6 +82,39 @@ registrationServices.service('User', ['$http', '$q',
  			url: 'sendLesson',
  			params: {
  				userId: userId
+ 			}
+ 		});
+ 	}
+
+ 	function sendmess (lessId, message, username) {
+ 		return $http({
+ 			method: 'post',
+ 			url: 'getMessage',
+ 			params: {
+ 				lessId: lessId,
+ 				message: message,
+ 				username: username
+ 			}
+ 		});
+ 	}
+
+ 	function enterLesson (idlesson, username) {
+ 		return $http({
+ 			method: 'get',
+ 			url: 'chekingUsernameAndIdLesson',
+ 			params: {
+ 				idlesson: idlesson,
+ 				username: username
+ 			}
+ 		});
+ 	}
+
+ 	function loadChat (lessonid) {
+ 		return $http({
+ 			method: 'get',
+ 			url: 'ChatLoadging',
+ 			params: {
+ 				idlesson: lessonid
  			}
  		});
  	}
