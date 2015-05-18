@@ -62,6 +62,39 @@ registrationServices.service('User', ['$http', '$q',
  		});
  	}
 
+
+
+
+
+
+
+
+
+
+
+
+ 	function sendmess (message, user) {
+ 		return $http({
+ 			method: 'post',
+ 			url: 'chat',
+ 			params: {
+ 				message: message,
+ 				username: user.uname
+ 			}
+ 		});
+ 	}
+
+
+
+
+
+
+
+
+
+
+
+
  	function addlesson (studentUserName, idTeacher, languag, date, tim) {
  		return $http({
  			method: 'get',

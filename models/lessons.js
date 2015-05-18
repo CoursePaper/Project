@@ -6,5 +6,6 @@ module.exports = mongoose.model('Lesson',{
 	teacher: { idTeacher: String, teacherUserName: String },
 	languag: String,
 	date: { day: String, month: String, year: String },
-	tim: String
+	tim: String,
+	chat: []
 });

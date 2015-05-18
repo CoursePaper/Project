@@ -58,6 +58,38 @@ rCtrl.controller('rCtrl', ['$location', '$scope', 'User',
 		};
 		$scope.user = globalUser;
 
+
+
+
+
+
+
+
+
+
+
+		$scope.sendMessage = function () {
+			//console.log("!!!!!!!!!!!!Chat!!!!!!!!!!!");
+			User.sendmess($scope.message, $scope.user).then(function (data) {
+				/*if (data.data == 500) {
+					console.log("Message error!");
+
+				} else {
+					console.log("Message okey!");
+				}*/
+			});
+		};
+
+
+
+
+
+
+
+
+
+
+
 		$scope.hideCreatingLessons = function () {
 			$('#inviz').css("display", "none");
 		};

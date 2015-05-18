@@ -62,6 +62,96 @@ module.exports = function(passport){
 	  // })(req, res, next);
 	});
 
+
+
+
+    
+
+
+
+
+    router.get('/chat', function(req, res){
+        Lesson.findOne({'_id': '5558a75bd0767b7919bde698'/*req.param('idLesson')*/}, function(err, lesson){
+            if (err){
+                console.log("Error in find lesson: " + err);
+                return done(err);
+            }
+            if (lesson){
+                lesson.chat.push({username: 'qwert'/*req.param('username')*/, message: 'asdfg'/*req.param('message')*/, stat: 'asdfg' });
+                lesson.save(function(err) {
+                    if (err){
+                        console.log('Error in saving message: '+err);  
+                        throw err;  
+                    }
+                    res.json("ok");
+                    console.log('New message save');    
+                });
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+    router.get('/sendMeMessages', function(req, res){
+        Lesson.findOne({'_id': req.param('idLesson')}, function(err, lesson){
+            if (err){
+                console.log("Error in find lesson: " + err);
+                return done(err);
+            }
+            if (lesson){
+                var messageArray = [];
+                for (var i = 0; i < lesson.chat.length; i++){
+                    if(lesson.chat[i].username != req.param('username') && lesson.chat[i].status == false){
+                        lesson.chat[i].status = true;
+                        messageArray.push(lesson.chat[i]);
+                        lesson.save(function(err) {
+                            if (err){
+                                console.log('Error in Saving status of message: '+err);  
+                                throw err;  
+                            }
+                            console.log('New message add in array');
+                            console.log(messageArray);
+                         });                  
+                    }
+                }
+                res.json(messageArray);
+            }
+        });
+    });
+
+
+
+
+
+
+    router.get('/chekingUsernameAndIdLesson', function(req, res){
+        Lesson.findOne({'_id': req.param('idlesson')}, function(err, lesson){
+            if (err){
+                console.log("Error in find lesson: " + err);
+                return done(err);
+            }
+            if (lesson){
+                if(lesson.student.studentUserName == req.param('username') || lesson.teacher.teacherUserName = req.param('username')){
+                    res.json(lesson);
+                }
+                else res.json(500);
+            }
+        });
+    });
+
+
+
+
+
+
+
 	router.get('/addlesson', function(req, res){
 
             User.findOne({ 'username' :  req.param('studentUserName') }, function(err, userStudent){
