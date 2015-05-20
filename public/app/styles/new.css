@@ -6383,7 +6383,7 @@ footer p {
   top: 22px;
   right: 20px;
   float: right;
-  height: 430px;
+  height: 480px;
   min-width: 430px;
   border-radius: 6px;
   overflow: auto;
@@ -6399,11 +6399,10 @@ footer p {
   z-index: 3;
   padding: 0px;
   left: 690px;
-  top: 455px;
+  top: 510px;
   display: block;
   z-index: 5;
  }
-
 .mes {
   height: 50px;
   border-radius: 0;

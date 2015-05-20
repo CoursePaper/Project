@@ -33,7 +33,8 @@ registrationServices.service('User', ['$http', '$q',
  		loadlessons: loadlessons,
  		sendmess: sendmess,
  		enterLesson: enterLesson,
- 		loadChat: loadChat
+ 		loadChat: loadChat,
+ 		loadProfile: loadProfile
  	});
 
  	function registration (username, firstname, lastname, useremail, password, country) {
@@ -62,17 +63,6 @@ registrationServices.service('User', ['$http', '$q',
  		});
  	}
 
-
-
-
-
-
-
-
-
-
-
-
  	function sendmess (message, user) {
  		return $http({
  			method: 'post',
@@ -83,17 +73,6 @@ registrationServices.service('User', ['$http', '$q',
  			}
  		});
  	}
-
-
-
-
-
-
-
-
-
-
-
 
  	function addlesson (studentUserName, idTeacher, languag, date, tim) {
  		return $http({
@@ -148,6 +127,16 @@ registrationServices.service('User', ['$http', '$q',
  			url: 'ChatLoadging',
  			params: {
  				idlesson: lessonid
+ 			}
+ 		});
+ 	}
+
+ 	function loadProfile(Id) {
+ 		return $http({
+ 			method: 'get',
+ 			url: 'profile',
+ 			params: {
+ 				userId: Id
  			}
  		});
  	}

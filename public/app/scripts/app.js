@@ -12,6 +12,10 @@ angular.module('webrtcV0App', [
         templateUrl: '../app/views/index.html'
         // controller: 'newUserCtrl'
       })
+       .when('/myprof', {
+        templateUrl: '../app/views/viewProfile.html',
+        // controller: 'MainCtrl'
+      })
        .when('/prof', {
         templateUrl: '../app/views/profile.html',
         // controller: 'MainCtrl'

@@ -19,7 +19,7 @@
       <button id="callButton">Call</button>
       <button id="hangupButton">Hang Up</button>
     </div> -->
-    <div class="wchat" ng-init="reloading()">
+    <div class="wchat" ng-init="reloading(0)">
         <p ng-repeat="i in Chat"><strong>{{i.username}}:</strong> {{i.mtext}}</p>
     </div>
     <form class="chat" ng-submit="sendMessage()">
@@ -42,4 +42,11 @@
 		<p>studentUserName: {{lesson.studentUserName}}</p>
 	</div> -->
 </section>
-
+<!-- 
+<script ng-controller="rCtrl">
+$(document).ready(function(){
+	while(path() == '/kesson') {
+		setInterval(loadChat(globalLesson.Id), 5000 );
+	}
+});
+</script> -->

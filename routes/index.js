@@ -43,114 +43,12 @@ module.exports = function(passport){
                     		console.log("incorrected password");
                     		res.json(500)
                     	}
-                        //return done(null, false, req.flash('message','User Already Exists'));
                     } else {
                         console.log("user not found");
                         res.json(500);
                     }
-                });		
-	  // passport.authenticate('login', function(err, user, info) {
-	  //   /*if (err) { return next(err); }*/
-	  //   if (!user) { return res.sendStatus(500);}
-	  //   req.logIn(user, function(err) {
-	  //   	// res.json(res.user);
-	  //     if (err) { return next(err); }
-	  //     console.log("auth");
-	  //     res.end();
-	  //     // res.sendfile("./public/app/profile.html");/* res.redirect('/home');*//*res.json(req.user);*/
-	  //   });
-	  // })(req, res, next);
-	});
-
-
-
-
-    
-
-
-
-
-    router.get('/chat', function(req, res){
-        Lesson.findOne({'_id': '5558a75bd0767b7919bde698'/*req.param('idLesson')*/}, function(err, lesson){
-            if (err){
-                console.log("Error in find lesson: " + err);
-                return done(err);
-            }
-            if (lesson){
-                lesson.chat.push({username: 'qwert'/*req.param('username')*/, message: 'asdfg'/*req.param('message')*/, stat: 'asdfg' });
-                lesson.save(function(err) {
-                    if (err){
-                        console.log('Error in saving message: '+err);  
-                        throw err;  
-                    }
-                    res.json("ok");
-                    console.log('New message save');    
                 });
-            }
-        });
-    });
-
-
-
-
-
-
-
-
-
-
-    router.get('/sendMeMessages', function(req, res){
-        Lesson.findOne({'_id': req.param('idLesson')}, function(err, lesson){
-            if (err){
-                console.log("Error in find lesson: " + err);
-                return done(err);
-            }
-            if (lesson){
-                var messageArray = [];
-                for (var i = 0; i < lesson.chat.length; i++){
-                    if(lesson.chat[i].username != req.param('username') && lesson.chat[i].status == false){
-                        lesson.chat[i].status = true;
-                        messageArray.push(lesson.chat[i]);
-                        lesson.save(function(err) {
-                            if (err){
-                                console.log('Error in Saving status of message: '+err);  
-                                throw err;  
-                            }
-                            console.log('New message add in array');
-                            console.log(messageArray);
-                         });                  
-                    }
-                }
-                res.json(messageArray);
-            }
-        });
-    });
-
-
-
-
-
-
-    router.get('/chekingUsernameAndIdLesson', function(req, res){
-        Lesson.findOne({'_id': req.param('idlesson')}, function(err, lesson){
-            if (err){
-                console.log("Error in find lesson: " + err);
-                return done(err);
-            }
-            if (lesson){
-                if(lesson.student.studentUserName == req.param('username') || lesson.teacher.teacherUserName = req.param('username')){
-                    res.json(lesson);
-                }
-                else res.json(500);
-            }
-        });
-    });
-
-
-
-
-
-
+	});
 
 	router.get('/addlesson', function(req, res){
 
@@ -272,63 +170,49 @@ router.get('/sendLesson', function(req, res){
     
 router.post('/signup', function(req, res){
 	User.findOne({ 'username' :  req.param('username') }, function(err, user){
-        // В бд User ищется один человек с username, который мы написали в 
-        // поле регистрации и отправили в качестве параметра на сервер
-        // In case of any error, return using the done method
         if (err){
             console.log('Error in SignUp: '+err);
             return done(err);
         }
-        console.log(req.param('username')); // Просто вывожу username, который мне пришёл
-        // already exists
-        if (user) { // Если такой user нашёлся, то вывожу это:
+        console.log(req.param('username'));
+        if (user) {
             console.log('User already exists with username: '+ user.username);
             res.json(500);
-            //return done(null, false, req.flash('message','User Already Exists'));
         } else {
-
-            // create the user
-            // Если такого юзера нету, то создаю нового и сохраняю его
             var newUser = new User();
             console.log(req.param('username'));
-            // set the user's local credentials
             newUser.username = req.param('username');
             newUser.password = (req.param('password'));
             newUser.email = req.param('useremail');
             newUser.firstName = req.param('firstname');
             newUser.lastName = req.param('lastname');
             newUser.country = req.param('country');
-            // save the user
             newUser.save(function(err) {
                 if (err){
                     console.log('Error in Saving user: '+err);  
                     throw err;  
                 }
-                console.log('User Registration succesful');    
-                //return done(newUser);
+                console.log('User Registration succesful');
                 res.json(newUser);
             });
         }});
 	});
 
+    router.get('/profile', function(req, res){
+        User.findOne({ '_id' :  req.param('userId') }, function(err, user){
+            if (err){
+                console.log('Error in loading profile: ' + err);
+                return done(err);
+            }
+            if (user) {
+                res.json(user);
+            } else {
+                res.json(500);
+            }
+        });
+    });
+
     router.post('/getMessage', function(req, res){
-        // Lesson.findOne({'_id': '5558a75bd0767b7919bde698'/*req.param('idLesson')*/}, function(err, lesson){
-        //     if (err){
-        //         console.log("Error in find lesson: " + err);
-        //         return done(err);
-        //     }
-        //     if (lesson){
-        //         lesson.chat.push({username: 'qwert'/*req.param('username')*/, message: 'asdfg'req.param('message'), stat: 'asdfg' });
-        //         lesson.save(function(err) {
-        //             if (err){
-        //                 console.log('Error in saving message: '+err);  
-        //                 throw err;  
-        //             }
-        //             res.json("ok");
-        //             console.log('New message save');    
-        //         });
-        //     }
-        // });
         var mess = new Mess();
         mess.lessonId = req.param('lessId');
         mess.username = req.param('username');
@@ -344,33 +228,6 @@ router.post('/signup', function(req, res){
             // res.end();
         });
     });
-
-    // router.get('/sendMeMessages', function(req, res){
-    //     Lesson.findOne({'_id': req.param('idLesson')}, function(err, lesson){
-    //         if (err){
-    //             console.log("Error in find lesson: " + err);
-    //             return done(err);
-    //         }
-    //         if (lesson){
-    //             var messageArray = [];
-    //             for (var i = 0; i < lesson.chat.length; i++){
-    //                 if(lesson.chat[i].username != req.param('username') && lesson.chat[i].status == false){
-    //                     lesson.chat[i].status = true;
-    //                     messageArray.push(lesson.chat[i]);
-    //                     lesson.save(function(err) {
-    //                         if (err){
-    //                             console.log('Error in Saving status of message: '+err);  
-    //                             throw err;  
-    //                         }
-    //                         console.log('New message add in array');
-    //                         console.log(messageArray);
-    //                      });                  
-    //                 }
-    //             }
-    //             res.json(messageArray);
-    //         }
-    //     });
-    // });
 
     router.get('/chekingUsernameAndIdLesson', function(req, res){
         Lesson.findOne({ '_id' : req.param('idlesson') }, function(err, lesson){
@@ -401,27 +258,6 @@ router.post('/signup', function(req, res){
         });
     });
 
-	// router.post('/signup', function(req, res, next) {
-	//   passport.authenticate('signup', function(err, user, info) {
-	//     /*if (err) { return next(err); }*/
-	//     if (user) { return res.sendStatus({name: "hello"});}
-	//     req.logIn(user, function(err) {
-	//     	// res.json(res.user);
-	//       if (err) { return next(err); }
-	//       res.json(user);/* res.redirect('/home');*//*res.json(req.user);*/
-	//     });
-	//   })(req, res, next);
-	// });
-
-	/* GET Home Page */
-	// router.get('/home', isAuthenticated, function(req, res){
-	// 	res.json({ user: req.user });
-	// 	console.log(req.user);
-	// 	//res.end();
-	// 	/*res.json({user: req.user.firstName});*/
-	// });
-
-	/* Handle Logout */
 	router.get('/signout', function(req, res) {
 		req.logout();
 		res.redirect('/');

@@ -1,46 +1,15 @@
-<section ng-controller="rCtrl">
-	<!-- <h2>Hello, {{user.uname}}!</h2> -->
-</section>
 <section class="login-form" ng-controller="rCtrl">
 	<img src="http://i63.beon.ru/5/3/1540305/97/93378797/7f3d97.jpeg" class="img-rounded img-responsive" />
 	
 	<div class="uinfo" ng-app="webrtcV0App">
-		<p><strong>User Name:</strong> {{user.uname}}</p>
-		<p><strong>First Name:</strong> {{user.ufname}}</p>
-		<p><strong>Last Name:</strong> {{user.ulname}}</p>
-		<p><strong>Country:</strong> {{user.ucountry}}</p>
+		<p><strong>User Name:</strong> {{uProfile.uname}}</p>
+		<p><strong>First Name:</strong> {{uProfile.ufname}}</p>
+		<p><strong>Last Name:</strong> {{uProfile.ulname}}</p>
+		<p><strong>Country:</strong> {{uProfile.ucountry}}</p>
 	</div>
 </section>
 
-<section class="login-form" id="inviz" ng-controller="rCtrl">
-	<form id="iii" ng-submit="createLesson()">
-		<div class="btn btn-primary bb" ng-click="hideCreatingLessons()">Hide lesson registration</div>
-		<!-- <div class="form-group"> -->
-	  		<input id="login-name _login" type="text" class="form-control login-field" placeholder="Enter your student username" ng-model="studentUserName" required />
-				<!-- <label class="login-field-icon fui-user"></label> -->
-		<!-- </div> -->
-		<!-- <div class="form-group"> -->
-	  		<input id="login-name _login" type="text" class="form-control login-field" placeholder="Enter language" ng-model="languag" required />
-				<!-- <label class="login-field-icon fui-user"></label> -->
-				<!-- <select id="login-name _login" class="form-control login-field">
-					<option>English</option>
-					<option>Deutch</option>
-					<option>Franch</option>
-				</select> -->
-		<!-- </div> -->
-		<!-- <div class="form-group"> -->
-	  		<input id="login-name _login" type="text" class="form-control login-field" placeholder="Enter date" ng-model="date" required />
-			<!-- <label class="login-field-icon fui-user"></label> -->
-		<!-- </div> -->
-		<!-- <div class="form-group"> -->
-	  		<input id="login-name _login" type="text" class="form-control login-field" placeholder="Enter time" ng-model="tim" required />
-			<!-- <label class="login-field-icon fui-user"></label> -->
-		<!-- </div> -->
-	    <button id="login" type="submit" class="btn btn-primary btn-lg btn-block">Create</button>
-    </form>
-</section>
-
-<section class="login-form b" ng-controller="rCtrl" ng-init="loadLessons()">
+<section class="login-form b" ng-controller="rCtrl" ng-init="loadProfileLessons()">
 	<table>
 		<thead>
 			<tr>
@@ -56,7 +25,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="i in lesArray">
+			<tr ng-repeat="i in lesPArray">
 				<td ng-click="enterLesson(i._id)">{{$index+1}}</td>
 				<td ng-click="enterLesson(i._id)">{{i.date.day}}.{{i.date.month}}.{{i.date.year}}</td>
 				<td ng-click="enterLesson(i._id)">{{i.tim}}</td>
@@ -66,10 +35,9 @@
 			</tr>
 		</tbody>
 	</table>
-		<div id="addlesson" class="btn btn-primary" ng-click="openCreationLessons()">Create new lesson</div>
 </section>
 
-<section id="inviz1" class="login-form">
+<!-- <section id="inviz1" class="login-form">
 	<ul>
 		<li>
 			<blockquote class="comment">
@@ -98,4 +66,4 @@
 		<label class="login-field-icon fui-new"></label>
 	</div>
 	<input class="btn btn-lg btn-primary" type="submit" value="Send">
-</section>
+</section> -->

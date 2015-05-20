@@ -1,7 +1,9 @@
 var globalUser = {};
+var userProfile = {};
 var globalLesson = {};
 var chat = {};
 var lessonsArray = [];
+var lessonsPArray = [];
 var template = [{
 	date: '---',
 	tim: '---',
@@ -26,13 +28,15 @@ rCtrl.controller('rCtrl', ['$location', '$scope', 'User',
 					$('<p>Error! Such user name is allready exist!</p>').attr('id','error').insertBefore('div.ln');
 				} else {
 					console.log(data);
-					$location.path('/prof');
+					$location.path('/myprof');
 					globalUser.uname = data.data.username;
 					globalUser.ulname = data.data.lastName;
 					globalUser.ufname = data.data.firstName;
 					globalUser.ucountry = data.data.country;
 					globalUser._id = data.data._id;
-				}				
+					$scope.user = globalUser;
+				}
+				$scope.user = globalUser;
 			});
 		};
 		$scope.user = globalUser;
@@ -46,53 +50,25 @@ rCtrl.controller('rCtrl', ['$location', '$scope', 'User',
 
 				} else {
 					console.log(data);
-					$location.path('/prof');
+					$location.path('/myprof');
+					//console.log($location.path());
 					globalUser.uname = data.data.username;
 					globalUser.ulname = data.data.lastName;
 					globalUser.ufname = data.data.firstName;
 					globalUser.ucountry = data.data.country;
 					globalUser._id = data.data._id;
-					//loadLessons();
 				}
 			});
 		};
-		$scope.user = globalUser;
-
-
-
-
-
-
-
-
-
-
 
 		$scope.sendMessage = function () {
-			//console.log("!!!!!!!!!!!!Chat!!!!!!!!!!!");
-			User.sendmess($scope.message, $scope.user).then(function (data) {
-				/*if (data.data == 500) {
-					console.log("Message error!");
-
-				} else {
-					console.log("Message okey!");
-				}*/
-			});
+			User.sendmess($scope.message, $scope.user).then(function (data) {});
 		};
-
-
-
-
-
-
-
-
-
-
 
 		$scope.hideCreatingLessons = function () {
 			$('#inviz').css("display", "none");
 		};
+
 		$scope.openCreationLessons = function() {
 			$('p#error').remove();
 			$('input#login-name').value = "";
@@ -118,21 +94,34 @@ rCtrl.controller('rCtrl', ['$location', '$scope', 'User',
 						globalLesson.date = (data.data.date.day + '.' + data.data.date.month + '.' + data.data.date.year);
 						globalLesson.tim = data.data.tim;
 						console.log(data.data);
-						$scope.loadLessons();
+						$scope.loadLessons($scope.user._id);
 					}
 				}
+				$scope.loadLessons
 			});
 		}
 		$scope.lesson = globalLesson;
 
 		$scope.showProfile = function (ID) {
-			// User.getUserData().then();
-			// console.log(ID);
+			User.loadProfile(ID).then(function (data) {
+				if (data.data == 500) {
+					alert("Error :(");
+				} else {
+					if (data.data._id == $scope.user._id) {
+						$location.path('/myprof');
+					} else {
+						userProfile.uname = data.data.username;
+						userProfile.ulname = data.data.lastName;
+						userProfile.ufname = data.data.firstName;
+						userProfile.ucountry = data.data.country;
+						userProfile._id = data.data._id;
+						$location.path('/prof');
+					}
+				}
+			});
 		}
+		$scope.uProfile = userProfile;
 
-		// $scope.enterLesson = function () {
-
-		// }
 		$scope.loadLessons = function () {
 			User.loadlessons($scope.user._id).then(function (data){
 				if (data.data != 500) {
@@ -148,61 +137,69 @@ rCtrl.controller('rCtrl', ['$location', '$scope', 'User',
 		}
 		$scope.lesArray = lessonsArray;
 
-		$scope.enterLesson = function (Id) {
-			// console.log(Id);
-			User.enterLesson(Id, $scope.user.uname).then(function (data) {
-				$location.path('/lesson');
-				console.log(data.data);
-				globalLesson.Id = data.data._id;
-				globalLesson.studentUserName = data.data.student.studentUserName;
-				globalLesson.teacherUserName = data.data.teacher.teacherUserName;
-				globalLesson.idStudent = data.data.student.idStudent;
-				globalLesson.idTeacher = data.data.teacher.idTeacher;
-				globalLesson.languag = data.data.languag;
-				globalLesson.date = (data.data.date.day + '.' + data.data.date.month + '.' + data.data.date.year);
-				globalLesson.tim = data.data.tim;
-				$scope.lesson = globalLesson;
+		$scope.loadProfileLessons = function () {
+			User.loadlessons($scope.uProfile._id).then(function (data){
+				if (data.data != 500) {
+					lessonsPArray = data.data;
+					console.log(data.data);
+					lessonsPArray.pop();
+					$scope.lesPArray = lessonsPArray;
+				} else {
+					lessonsPArray = template;
+					$scope.lesPArray = template;
+				}
+			});
+		}
 
-				$scope.loadChat(globalLesson.Id);
+		$scope.enterLesson = function (Id) {
+			User.enterLesson(Id, $scope.user.uname).then(function (data) {
+				if (data.data == 500) {
+					alert("Access denied!");
+				} else {
+					$location.path('/lesson');
+					console.log(data.data);
+					globalLesson.Id = data.data._id;
+					globalLesson.studentUserName = data.data.student.studentUserName;
+					globalLesson.teacherUserName = data.data.teacher.teacherUserName;
+					globalLesson.idStudent = data.data.student.idStudent;
+					globalLesson.idTeacher = data.data.teacher.idTeacher;
+					globalLesson.languag = data.data.languag;
+					globalLesson.date = (data.data.date.day + '.' + data.data.date.month + '.' + data.data.date.year);
+					globalLesson.tim = data.data.tim;
+					$scope.lesson = globalLesson;
+
+					$scope.loadChat(globalLesson.Id);
+				}
 
 			});
-			// $scope.lesson = globalLesson;
 		}
 
 		$scope.sendMessage = function () {
 			User.sendmess($scope.lesson.Id, $scope.message, $scope.user.uname).then(function (data) {
-				// if (data.data == 500) {
-				// 	console.log("Message error!");
-
-				// } else {
-				// 	console.log(data.data);
-				// }
 				console.log(data.data);
 				$('.mess').value = "";
 				$scope.loadChat(globalLesson.Id);
 			});
 		};
 
-		$scope.reloading = function () {
-			var timeoutId = setInterval($scope.loadChat(globalLesson.Id), 5000 );
-			console.log("let's started");
-			return timeoutId;
+		$scope.reloading = function (n) {
+			if (n==0)  $scope.loadChat(globalLesson.Id);
+			var timerId = setTimeout(function tick() {
+				if ($location.path() == '/lesson') {
+				  $scope.loadChat(globalLesson.Id);
+				  timerId = setTimeout(tick, 2000);
+				  n++;
+				} else return;
+			}, 2000);
 		}
-
+		
 		$scope.loadChat = function (lessonId) {
 			User.loadChat(lessonId).then(function (data) {
 				chat = data.data;
-				// console.log(chat);
 				$scope.Chat = chat;
-				console.log("in loadChat()");
 				$('.wchat').scrollTop($(".wchat")[0].scrollHeight);
 			});
-			console.log("out of loadChat()");
-			// $('.wchat').scrollTop($(".wchat")[0].scrollHeight);
-			// $scope.chat = Chat;
 		}
-		// $scope.chat = Chat;
-
 		$scope.main = function () {
 			function hasGetUserMedia() {
 			return !!(navigator.getUserMedia ||
@@ -235,24 +232,6 @@ rCtrl.controller('rCtrl', ['$location', '$scope', 'User',
 					$('#remoteVideo').fadeOut();
 					stream.stop();
 				});
-
-				//  $scope.peer = new Peer($scope.user._id);
-				//  // Call a peer, providing our mediaStream
-				//  if ($scope.lesson.studentUserName == $scope.user._id) {
-				//  	Id = $scope.lesson.teacherUserName;
-				//  } else {
-				//  	Id = $scope.lesson.studentUserName;
-				//  }
-				//  $scope.call = peer.call($scope.lesson.Id, stream);
-				//  //answer
-				//  peer.on(call, function(call) {
-				// // Answer the call, providing our mediaStream
-				// call.answer(stream);
-				//  });
-				//  call.on(stream, function(stream) {
-				//     // `stream` is the MediaStream of the remote peer.
-				//  // Here you'd add it to an HTML video/canvas element.
-				//  });
 			}
 
 			function errorCallback(error){
